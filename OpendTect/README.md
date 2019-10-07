@@ -14,9 +14,9 @@ chmod +x OpendTect_Installer_lux64.sh
 
 Follow the instructions and install just the basic version of OpendTect:
 
-#### Figure: {#f1}
-![](figures/figure1.png){width=80%}
-: Choose only the basic package to install.
+
+![](figures/figure1.png)
+
 
 ## Start OpendTect
 
@@ -38,48 +38,43 @@ If your 2D/3D RTM image is not in SEG-Y format already, create a SEG-Y file with
 
 ## Set up a new survey
 
-Set up a new survey by clicking on Survey (top left corner) and then choose `Select/Setup` -> `Create new survey`:
+Set up a new survey by clicking on Survey (top left corner) and then choose `Select/Setup` -> `Create new survey`. Choose a survey name, select the dimensions of the data cube (i.e. 3D) and set the Z domain to depth (for RTM images):
 
-#### Figure: {#f2}
-![](figures/figure2.png){width=50%}
-: Set up a new survey: choose a survey name, select the dimensions of the data cube (i.e. 3D) and set the Z domain to depth (for RTM images).
+
+![](figures/figure2.png)
 
 
 Next, you will be asked to choose an input file. Select the SEG-Y file of your RTM image and set the `Data type` to `3D Seismic Data` (for stacked/migrated data):
 
-#### Figure: {#f3}
-![](figures/figure3.png){width=90%}
+![](figures/figure3.png)
 : Ensure that the In-line and Cross-line ranges, as well as the X-coordinate and Y-coordinate ranges show the correct number of traces of your 3D data cube.
 
-As shown in Figure #f3, selection your SEG-Y file, will perform a scan of the 1000 traces of the data cube. If the headers are set up correctly, you should see the correct trace range under `In-line range` and `Cross-line range`. E.g. in this example, there are 801 traces in both X and Y direction. Note that the in-line header (Xcdp) is stored at byte 181 and the cross-line header is stored at byte 185.
-
-#### Figure: {#f4}
-![](figures/figure4.png){width=80%}
-: Check once again that the correct trace ranges are shown.
+Selecting your SEG-Y file will perform a scan of the 1000 traces of the data cube. If the headers are set up correctly, you should see the correct trace range under `In-line range` and `Cross-line range`. E.g. in this example, there are 801 traces in both X and Y direction. Note that the in-line header (Xcdp) is stored at byte 181 and the cross-line header is stored at byte 185.
 
 
-If the quick scan results shows the correct headers as shown in Figure #f3, choose `Ok` to proceed. If asked if you want to proceed without scanning the full file, confirm. In the next window (Figure #f4), confirm once more that the survey ranges and coordinates show the correct ranges of traces. Then select `Ok` and select the newly created survey -> `Select`. Select `no` if asked whether you want to import the SEG-Y data for this survey.
+![](figures/figure4.png)
 
-Next, OpendTect will ask you to adjust the z-axis of your data cube. Choose a scaling value, such that your empty data cube looks like the cube in Figure #f5.
 
-#### Figure: {#f5}
-![](figures/figure5.png){width=90%}
-: Adjust the z-axis such that you get a cube like this.
+If the quick scan results shows the correct headers as shown above, choose `Ok` to proceed. If asked if you want to proceed without scanning the full file, confirm. In the next window (Figure #f4), confirm once more that the survey ranges and coordinates show the correct ranges of traces. Then select `Ok` and select the newly created survey -> `Select`. Select `no` if asked whether you want to import the SEG-Y data for this survey.
+
+Next, OpendTect will ask you to adjust the z-axis of your data cube. Choose a scaling value, such that your empty data cube looks like the cube in the following figure:
+
+![](figures/figure5.png)
 
 
 ## Import SEG-Y data
 
 So far, you have only set the survey area for your RTM image. Next, we will upload the actual SEG-Y file into OpendTect, so that we can plot slices from the data cube. To import the data, go to `Survey` (top left corner)-> `Import` -> `Seismic` -> `SEG-Y` -> `Volume` and select your SEG-Y file:
 
-#### Figure: {#f6}
-![](figures/figure6.png){width=90%}
-: Check that the correct trace ranges are shown to import the data.
 
-As before, ensure that the correct trace ranges are shown as in Figure #f6. Then, click on `Next` and you will see the screen in Figure f7a. Click on the lower `select` box, next to Output Cube. This will bring you to the screen shown in Figure f7b:
+![](figures/figure6.png)
 
-#### Figure: {#f7}
-![(a) Leave the Volume subselection blank and hit the select box next to Output Cube.](figures/figure7a.png){width=80%}
-![(b) Create a new name under which to save the imported data.](figures/figure7b.png){width=50%}
+
+As before, ensure that the correct trace ranges are shown as in Figure #f6. Then, click on `Next` and you will see the screen in Figure f7a. Click on the lower `select` box, next to Output Cube. This will bring you to the the following screen:
+
+
+![(a) Leave the Volume subselection blank and hit the select box next to Output Cube.](figures/figure7a.png)
+![(b) Create a new name under which to save the imported data.](figures/figure7b.png)
 
 Enter a name, under which your data will be stored, e.g. `salt_model`. Select `Ok` and then `Import`. If the data has been imported successfully, you should see the following output:
 
