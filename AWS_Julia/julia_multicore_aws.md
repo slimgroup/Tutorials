@@ -64,7 +64,7 @@ CPU NODE SOCKET CORE L1d:L1i:L2:L3 ONLINE
 7   0    0      3    3:3:3:0       yes
 ```
 
-Here, we can see that we have 9 (vCPUs), but that `CPU 0` and `CPU 4` both belong to `CORE 0`. On this instance, all cores are on the same socket (`SOCKET 0`), but for the largest instance, there are more than one socket, so it's important to take that into consideration when you set your thread pinning.
+Here, we can see that we have 8 (v)CPUs, but that `CPU 0` and `CPU 4` both belong to `CORE 0`. On this instance, all cores are on the same socket (`SOCKET 0`), but for the largest instance, there are more than one socket, so it's important to take that into consideration when you set your thread pinning.
 
 
 ### Run and monitor job
