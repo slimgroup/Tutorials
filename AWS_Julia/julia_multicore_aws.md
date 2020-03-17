@@ -4,7 +4,7 @@ This tutorial covers how to run JUDI jobs using multiple CPUs on AWS inatances. 
 
 ## Start an EC2 instance
 
-Start a EC2 instance in the AWS console:
+Start an EC2 instance in the AWS console:
 
 1. **Step 1: Choose an Amazon Machine Image (AMI)**: Choose the `SLIM_Julia_Apps-py3.7-jl1.3-gcc9.2-AmazonLinux` AMI for your instance from `My AMIs`.
 
@@ -13,14 +13,6 @@ Start a EC2 instance in the AWS console:
 3. **Step 3: Configure Instance Details**: Make sure to check the box for `Request Spot instances`, unless you have a good reason not to. Under `IAM role`, choose `SLIM-Extras_for_EC2`. This role will allow your instance to interact with `S3`. If you want to access additional services from your instance, such as message queueues (`SQS`), select `SLIM-Extras_ECS_for_EC2` instead.
 
 4. Complete the remaining steps. At **Step 6: Configure Security Group**, make sure to select `Select an exisiting security group` and check both boxes to enable the `defaul` and `SSH_access` groups.
-
-5. Once your instance is running, you need to configure the AWS command line interface so that you can save results from your instance to S3. First connect to your instance via ssh (replace `your_key_file.pem` with the correct file name and insert the public DNS of your instance):
-
-```
-ssh -Y -i ~/.ssh/your_key_file.pem -o StrictHostKeyChecking=no ec2-user@ec2-xx-xxx-xxx-xxx.compute-1.amazonaws.com
-```
-
-Once you are connected to your instance, run `aws configure` and enter your `AWS Access Key ID`, your `AWS Secret Access Key`. For `Default region name`, type `us-east-1`. For `Default output format`, just hit enter.
 
 
 ## Run parallel julia
@@ -77,7 +69,9 @@ Here, we can see that we have 9 (vCPUs), but that `CPU 0` and `CPU 4` both belon
 
 ### Run and monitor job
 
-To run your application, first clone your github repo to your EC2 instance and then run your application. Always monitor your job to make sure you are using all the cores that you intended and that your memory consumption is appropriate (i.e. neither too small nor too large). To monitor your job, open a new terminal, ssh to your instance and run `top`. Once you see the output, press the `1` key on your keyboard. This will show the CPU usage of every individual core:
+To run your application, first clone your github repo to your EC2 instance and then run your application. Here, we'll simply run an example script from the JUDI directory: `julia ~/.julia/dev/JUDI/examples/scripts/modeling_basic_3D.jl`. 
+
+Always monitor your job to make sure you are using all the cores that you intended and that your memory consumption is appropriate (i.e. neither too small nor too large). To monitor your job, open a new terminal, ssh to your instance and run `top`. Once you see the output, press the `1` key on your keyboard. This will show the CPU usage of every individual core:
    
 ```
 Cpu0  : 64.0%us,  1.0%sy,  0.0%ni, 35.0%id,  0.0%wa,  0.0%hi,  0.0%si,  0.0%st
@@ -95,4 +89,4 @@ Swap:        0k total,        0k used,        0k free,   474892k cached
  4800 ec2-user  20   0 1915m 1.1g 110m R 293.9  3.6   2:35.99 julia
  ```
 
-Here, we can see that our julia programm is using `Cpu0`, `Cpu4`, `Cpu6` and `Cpu7`. From the output of `lscpu --extended`, we know that those CPUs correspond to `CORE 0`, `CORE 1`, `CORE 2` and `CORE 3`. In other words, every thread is running on a separate core, which is exactly what we wanted. On the other hand, if we see that both `Cpu0` and `Cpu4` are active, this means both threads are running on the same core (`CORE 0`), which we want to avoid. Making sure that every thread runs on the correct core is called **thread pinning**. There are many different options and it's not a trivial issue, so check out the following link on how to do proper thread pinning with `gcc`, which is the compiler devito is using here: [Managing Process Affinity in Linux](https://www.glennklockwood.com/hpc-howtos/process-affinity.html)
+Here, we can see that our julia programm is using `Cpu0`, `Cpu4`, `Cpu6` and `Cpu7`. From the output of `lscpu --extended`, we know that these CPUs correspond to `CORE 0`, `CORE 1`, `CORE 2` and `CORE 3`. In other words, every thread is running on a separate core, which is exactly what we wanted. On the other hand, if we had seen that both `Cpu0` and `Cpu4` were active, this means both threads are running on the same core (`CORE 0`), which we want to avoid. Making sure that every thread runs on the correct core is called **thread pinning**. There are many different options and it's not a trivial issue, so check out the following link on how to do proper thread pinning with `gcc`, which is the compiler Devito is using in our case: [Managing Process Affinity in Linux](https://www.glennklockwood.com/hpc-howtos/process-affinity.html)
